@@ -1,10 +1,7 @@
 # SubPB-mechanism
 
-<p align="center">
-  <img src="assets/SRDTrans.gif" width='600'>
-</p> 
 
-## <div align="center"><b><a href="README.md">SRDTrans</a></b></div>
+## <div align="center"><b><a href="README.md">SubPB</a></b></div>
 
 <div align="center">
 
