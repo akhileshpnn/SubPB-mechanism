@@ -25,16 +25,13 @@ This repository is for the models described in the paper
   - Numpy == 1.22.3
   - Scipy == 1.7.3
 
-## ⚡ Quick Inference
-1. Pretrained model
+## ⚡ Quick Guide
 
-    Download the pretrained model
-
-2. Data preparation 
-
-    Please delete the "_\_init__.py" file used for occupancy. Then, you can download the demo data(.tif file) and put the clean data into datasets/clean/.
-
-3. Test
+The repository has two folders,
+1. One-dimensional projection models 
+Recaluates evolution of state-space tracjectories with quasi-potential landscapes and their projections in Figure 1 and Figure 2 (Including their supplementary figures)
+2. Reaction diffusion models 
+Recalculates all feature comparison done with polarization mechanims outlined in Figure 3 and supplementary.
 
   ```bash
     # Simulated Calcium imaging dataat 0.3hz
