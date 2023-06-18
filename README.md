@@ -22,9 +22,8 @@ This repository is for the models described in the paper
 
 ## 🔧 Dependencies 
   - Python >= 3.6 
-
-
-
+  - Numpy == 1.22.3
+  - Scipy == 1.7.3
 
 ## ⚡ Quick Inference
 1. Pretrained model
