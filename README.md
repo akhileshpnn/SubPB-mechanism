@@ -5,7 +5,7 @@
 
 <div align="center">
 
-🚩 [**Paper**](#-Paper) **|** 🏰 [**Models and excecution**](#-Model-Zoo)**|** [**Demo**](#-Demo)
+🚩 [**Paper**](#-Paper) **|** ⚡ [**Quick Guide**] **|** 
 
 
 </div>
@@ -28,7 +28,7 @@ This repository is for the models described in the paper
 ## ⚡ Quick Guide
 
 The repository has two folders,
-1. One-dimensional projection models 
+1. One-dimensional projection models: 
 Recaluates evolution of state-space tracjectories with quasi-potential landscapes and their projections in Figure 1 and Figure 2 (Including their supplementary figures)
 
 ```python
@@ -62,7 +62,7 @@ grid_pot,Pt=qpl.find_potential()
 Q=-np.log(Pt)
 ```
 
-2. Reaction diffusion models 
+2. Reaction diffusion models: 
 Recalculates all feature comparison done with polarization mechanims outlined in Figure 3 and supplementary.
 
  
