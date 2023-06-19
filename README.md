@@ -5,7 +5,7 @@
 
 <div align="center">
 
-🚩 [**Paper**](#-Paper) **|** ⚡ [**Quick Guide**] **|** 
+🚩 [**Paper**](#-Paper) **|** ⚡ **Quick Guide** **|** 
 
 
 </div>
