@@ -62,10 +62,43 @@ grid_pot,Pt=qpl.find_potential()
 Q=-np.log(Pt)
 ```
 
-2. Reaction diffusion models: 
-Recalculates all feature comparison done with polarization mechanims outlined in Figure 3 and supplementary.
+2. Reaction-diffusion models: 
+Reaction-diffusion simulation for recalculating all features compared between polarization mechanisms outlined in Figure 3 and its supplementary.
+Example script to obtain Kymograph in Figure1 C
+ ```python
 
- 
+    lbo = Periodic() # periodic boundary condition
+    
+    ## select the model to simulate and corresponding threshold stimulus strength (from Figure 3A)
+    model = SubPB();threshold_stimu=0.012       
+    
+    initial_condition = around_steadystate_2vars() # initial condition around homogeneous steady state  
+    
+    ## select type of stimulus
+    stimulus_type=single_gradient_transient()
+    
+    stimulus_type.stimu_strength=0.02 # set stimulus strength.
+    
+    ## create class instance for the given model
+    rd = ReactionDiffusion1D(model, initial_condition, lbo, stimulus_type)
+    stimulus_type.tF=rd.tF
+    
+    add_noise=None # for performing stochastic simulation, set add_noise=True
+    rd.add_noise=add_noise
+    
+    ## integrate the system and find solution
+    ## If add_noise=True, stochastic simulation. If add_noise=None, deterministic simulation.
+    sol_det, sol_stocha=rd.simulate()
+    
+    if sol_det is None:
+        out=sol_stocha[:,:rd.N].T             
+    else:
+        out=sol_det.y[:rd.N]
+
+    tt=[10,70]
+    rd.plot_profile(rd.Stimulus.T,tt)
+    rd.plot_kymo(out,tt)     
+    rd.plot_timeseries(out,[10,0],tt)
 
 ---
 ## &#x1F308; Demo
