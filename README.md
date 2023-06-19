@@ -64,8 +64,11 @@ Q=-np.log(Pt)
 
 2. Reaction-diffusion models: 
 Reaction-diffusion simulation for recalculating all features compared between polarization mechanisms outlined in Figure 3 and its supplementary.
-Example script to obtain Kymograph in Figure1 C
+Example script to obtain Kymograph in Figure1C
  ```python
+
+    # file 'main.py' has class ReactionDiffusion1D that has all attributes for numerically solving the partial differential equation.
+    # Any new model can be added to 'models_repo.py'. Currently works only for models with two and three variables.
 
     lbo = Periodic() # periodic boundary condition
     
