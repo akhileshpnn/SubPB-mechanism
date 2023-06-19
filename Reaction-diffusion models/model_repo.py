@@ -1,0 +1,80 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Aug  3 13:50:09 2020
+
+@author: nandan
+"""
+
+import numpy as np
+
+class Model:
+    def reaction(self, u, v, pher):
+        return
+    
+    
+    
+class WavePinning:
+    
+    total = 2.268
+    k0 = 0.067 # s-1
+    g = 1 # s-1 # 
+    K = 1 # uM
+    d = 1 # s-1
+    du = 0.1 # um2s-1
+    dv = 10 # um2s-1
+
+    def reaction(self, t, y, s):
+        u, v = y 
+        fu = v*(self.k0 + (self.g*u*u)/(self.K**2 + u**2)) - self.d*u + s*v
+        fv = -fu
+        return [fu, fv]
+
+
+class SubPB:
+    
+    total=2.16
+    k0 = 0.067 # s-1
+    g = 1 # s-1 # 
+    K = 1 # uM
+    d = 1 # s-1
+    du = 0.1 # um2s-1
+    dv = 10 # um2s-1
+
+    def reaction(self, t, y, s):
+        u, v = y 
+        fu = v*(self.k0 + (self.g*u*u)/(self.K**2 + u**2)) - self.d*u + s*v
+        fv = -fu
+        return [fu, fv]
+    
+class Otsuji:
+    
+    total = 2
+    a1=2.5;a2=0.7;eps=0.01    
+    du = 0.1 # um2s-1
+    dv = 10 # um2s-1
+
+    def reaction(self, t, y, s):
+        u, v = y
+        fu = self.a1*(v - (u+v)/(self.a2*(u+v)+1)**2) +s*v
+        fv = -fu
+        return [fu, fv]
+    
+class Legi:
+    
+    total = 1
+    
+    k1a=k1b=2
+    k2a=k2b=1
+    k3a=k3b=1
+
+    du = 0.1 # um2s-1
+    dv = 10 # um2s-1
+    dw = 0.1 # um2s-1
+
+    def reaction(self, t, y, s):
+        u, v, w = y 
+        fu = self.k1a*s-self.k1b*u
+        fv = self.k2a*s-self.k2b*v
+        fw = self.k3a*u*(self.total-w)-self.k3b*v*w
+        return [fu, fv, fw]
+    
