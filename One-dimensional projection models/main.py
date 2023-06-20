@@ -169,9 +169,9 @@ class Model1D:
         ax.set_xticks(ticks=[0,0.5,1])
         ax.set_yticks(ticks=[0,0.5,1])
         ax.set_zticks(ticks=[0,1])
-        ax.set_yticklabels(labels=[])
-        ax.set_xticklabels(labels=[])
-        ax.set_zticklabels(labels=[])
+        # ax.set_yticklabels(labels=[])
+        # ax.set_xticklabels(labels=[])
+        # ax.set_zticklabels(labels=[])
         ax.view_init(elev=26, azim=-85)
         ax.set_aspect('auto')
         plt.show()             
@@ -205,10 +205,10 @@ if __name__ == '__main__':
 
     input_params=[total,sLmax,sRmax]
     
-    """
-    Legi model parameters
+    # """
+    # Legi model parameters
     
-    """
+    # """
     
     # model = legi_1d()
     # stimulus_type=stimulus_ramp()
