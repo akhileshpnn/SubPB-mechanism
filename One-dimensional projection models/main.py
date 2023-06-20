@@ -203,8 +203,8 @@ if __name__ == '__main__':
     # total=2.26 # region III
     # total=2.32 # region IV
 
-    input_params=[total,sLmax,sRmax]
-    
+    #####################################################################################
+          
     # """
     # Legi model parameters
     
@@ -229,8 +229,9 @@ if __name__ == '__main__':
     # sRmax=0.1 # maximum stimulus strength on the right side of the cell (sright)
 
     # total=1   
-
-    # input_params=[total,sLmax,sRmax]
+    #####################################################################################
+          
+    input_params=[total,sLmax,sRmax]
     
     
     ####################################### run the model
