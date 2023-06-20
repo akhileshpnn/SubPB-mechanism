@@ -13,8 +13,8 @@ import matplotlib.pyplot as plt
 
 from laplacebeltramioperator import *
 from initialconditions import *
-from stimulus_repo import *
-from model_repo import *
+from stimulus_repord import *
+from model_repord import *
 from colormaps import parula_map
 
 
