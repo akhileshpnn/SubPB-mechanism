@@ -98,6 +98,9 @@ Example script to obtain Kymograph in Figure1C
     else:
         out=sol_det.y[:rd.N]
 
+    tout=rd.t_eval[::int(1/rd.dt)]
+    out = out[:,::int(1/rd.dt)]
+    
     tt=[10,70]
     rd.plot_profile(rd.Stimulus.T,tt)
     rd.plot_kymo(out,tt)     
