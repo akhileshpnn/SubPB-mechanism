@@ -1,0 +1,31 @@
+# ode file for generating sub-critical pitfork bifurcation diagram in
+# Figure1B and 1E.  
+
+# subscripts '1' and '2' stands for 'left' and 'right'.
+# set initial conditions
+int u1=0.1,u2=0.0 
+
+# reaction terms
+f(u)= (k0 + gamma*u^2/(k^2 + u^2))*v-delta*u
+
+# mass conservation
+v=0.5*(2*ctot-(u1+u2))
+
+# ODEs
+du1/dt=f(u1)-du*(u1-u2)+s1*v
+du2/dt=f(u2)-du*(u2-u1)
+
+param ctot=2,k0=0.067,gamma=1,k=1.0,delta=1.0,du=0.01
+param s1=0.0
+# s1=0.005,0.01,0.02 (Figure1E)
+
+@ meth=cvode,dt=2.0,total=150000,maxstor=100000
+@ xp=t,bound=1000000
+@ xlo=0,xhi=10,ylo=0,yhi=4
+​
+# Some AUTO parameters
+@ autovar=x,autoxmin=2,autoymin=0.0,autoxmax=3,autoymax=2
+@ ntst=400,nmax=2500,npr=500,ds=0.001,dsmin=0.0001,dsmax=0.05
+@ ncol=4,epsl=1e-4,parmin=2,parmax=3,normmin=0,normmax=1000
+@ epsu=1e-4,epss=0.0001
+done
