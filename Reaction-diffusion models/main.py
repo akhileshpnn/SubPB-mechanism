@@ -144,10 +144,11 @@ class ReactionDiffusion1D:
         im = ax.imshow(u.T, extent=[0,self.N-1,len(u.T),0],cmap=parula_map, aspect = 'auto',vmin=np.min(u),vmax=np.max(u))
         ax.figure.colorbar(im)
         ax.set_ylabel('time(sec)',fontsize=20)
-        ax.set_xlabel('plama membrane contour$(\theta)$',fontsize=20)
-        ax.set_xticks(np.arange(0,self.N,2))
-        ax.set_xticklabels(np.arange(0,self.N,2),fontsize=20)
+        ax.set_xlabel(r'plama membrane contour$(\theta)$',fontsize=20)
+        ax.set_xticks([0,5,10,15,19])
+        ax.set_xticklabels(['0',r'$\frac{\pi}{2}$',r'$\pi$',r'$\frac{3\pi}{2}$',r'$2\pi$'],fontsize=20)
         ax.set_yticks(np.arange(0,len(u.T),50))
+        ax.set_yticklabels(np.arange(0,len(u.T),50),fontsize=20)
         if tt is not None:
             for t in tt:
                 ax.axhline(y=t,color='k',lw=5)        
@@ -163,11 +164,12 @@ class ReactionDiffusion1D:
         plt.figure(figsize=(6,2))
         for i,t in enumerate(tt):        
             plt.plot(s_t[i],'g-',lw=2.0)
-        plt.ylabel('$S(\theta)$',fontsize=20)
+        plt.ylabel(r'$S(\theta)$',fontsize=20)
         # plt.ylim(0,0.02)
-        plt.xlabel('plama membrane contour$(\theta)$',fontsize=20)
+        plt.xlabel(r'plama membrane contour$(\theta)$',fontsize=20)
         ax=plt.gca()
-        plt.xlim(0,19)
+        ax.set_xticks([0,5,10,15,19])
+        ax.set_xticklabels(['0',r'$\frac{\pi}{2}$',r'$\pi$',r'$\frac{3\pi}{2}$',r'$2\pi$'],fontsize=20)
         plt.show()    
     
     def plot_timeseries(self,u,bins,tt):
@@ -184,8 +186,8 @@ class ReactionDiffusion1D:
         if tt is not None:
             for t in tt:
                 plt.axvline(x=t,color='k',lw=5.0)
-        plt.ylabel('$u$',fontsize=20)
-        plt.xlabel('$time(sec)$',fontsize=20)
+        plt.ylabel(r'$u$',fontsize=20)
+        plt.xlabel(r'$time(sec)$',fontsize=20)
         plt.xlim(0,time[-1])
         
         plt.show()       
@@ -240,8 +242,9 @@ if __name__ == '__main__':
     tout=rd.t_eval[::int(1/rd.dt)]
     out = out[:,::int(1/rd.dt)]
     
-    tt=[50]
+    tt=None
     rd.plot_profile(rd.Stimulus.T,tt)
     rd.plot_kymo(out,tt)     
     rd.plot_timeseries(out,[10,0],tt)
+    
     

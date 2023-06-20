@@ -15,7 +15,7 @@ class Model:
     
 class WavePinning:
     
-    total = 2.268
+    ctot = 2.268
     k0 = 0.067 # s-1
     g = 1 # s-1 # 
     K = 1 # uM
@@ -32,7 +32,7 @@ class WavePinning:
 
 class SubPB:
     
-    total=2.155
+    ctot=2.155
     k0 = 0.067 # s-1
     g = 1 # s-1 # 
     K = 1 # uM
@@ -48,7 +48,7 @@ class SubPB:
     
 class Otsuji:
     
-    total = 2
+    ctot = 2
     a1=2.5;a2=0.7;eps=0.01    
     du = 0.1 # um2s-1
     dv = 10 # um2s-1
@@ -61,7 +61,7 @@ class Otsuji:
     
 class Legi:
     
-    total = 1
+    ctot = 1
     
     k1a=k1b=2
     k2a=k2b=1
@@ -75,6 +75,6 @@ class Legi:
         u, v, w = y 
         fu = self.k1a*s-self.k1b*u
         fv = self.k2a*s-self.k2b*v
-        fw = self.k3a*u*(self.total-w)-self.k3b*v*w
+        fw = self.k3a*u*(self.ctot-w)-self.k3b*v*w
         return [fu, fv, fw]
     
