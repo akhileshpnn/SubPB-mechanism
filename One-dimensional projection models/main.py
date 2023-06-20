@@ -22,8 +22,8 @@ params = {'legend.fontsize': 15,
           'ytick.labelsize':20}
 pylab.rcParams.update(params)
 
-from models_repo import *
-from stimulus_repo import *
+from models_repo1d import *
+from stimulus_repo1d import *
 from utils import *
 from quasi_potential_landscape import *
 
