@@ -105,8 +105,8 @@ Example script to obtain Kymograph in Figure1C
     rd.plot_profile(rd.Stimulus.T,tt)
     rd.plot_kymo(out,tt)     
     rd.plot_timeseries(out,[10,0],tt)
+ ```
+ ![image](https://github.com/akhileshpnn/SubPB-mechanism/assets/41164857/ba2c169f-d680-494b-8aa1-753297b24414)
 
----
-## &#x1F308; Demo
 
   
