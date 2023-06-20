@@ -32,7 +32,7 @@ class WavePinning:
 
 class SubPB:
     
-    total=2.16
+    total=2.155
     k0 = 0.067 # s-1
     g = 1 # s-1 # 
     K = 1 # uM
