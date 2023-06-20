@@ -107,6 +107,8 @@ Example script to obtain Kymograph in Figure1C
     rd.plot_timeseries(out,[10,0],tt)
  ```
  ![image](https://github.com/akhileshpnn/SubPB-mechanism/assets/41164857/ba2c169f-d680-494b-8aa1-753297b24414)
+ ![image](https://github.com/akhileshpnn/SubPB-mechanism/assets/41164857/513a3fd6-6227-48ad-b4af-03eab5e23932)
+
 
 
   
