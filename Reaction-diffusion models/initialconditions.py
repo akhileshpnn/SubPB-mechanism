@@ -20,7 +20,7 @@ class around_steadystate_2vars:
     dsigma=0.01
     def set_initial_condition(self, model,N):
         f=model
-        uin=f.total*0.5;vin=f.total*0.5
+        uin=f.ctot*0.5;vin=f.ctot*0.5
         s=0
         sol_timeseries = solve_ivp(f.reaction, [0, 500], [uin, vin], args=(s,), dense_output=True)
 #        
