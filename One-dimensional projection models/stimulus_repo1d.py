@@ -8,6 +8,11 @@ import numpy as np
 
 class stimulus_single:
     
+    '''
+    this class generates a single pulse of stimulus
+    between two specified time points, stimulus_beg and stimulus_end.
+    '''
+    
     stimulus_beg=10
     stimulus_end=70
     
@@ -21,7 +26,16 @@ class stimulus_single:
             sL=np.min(input_params[1:])
             sR=np.min(input_params[1:])
         return sL,sR
+    
 class stimulus_ramp:
+    
+    '''
+    this class generates step like ramping pulse of stimuli
+    between two specified time points, stimulus_beg and stimulus_end.
+    
+    the duration of steps, step_size is determined by segmenting the 
+    total duration.
+    '''
     
     stimulus_beg=10
     stimulus_end=70

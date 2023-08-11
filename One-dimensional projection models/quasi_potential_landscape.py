@@ -2,13 +2,18 @@ import numpy as np
 from scipy import constants
 from fp_solver import fokker_planck, boundary
 
-from models_repo import *
 
 class QuasiPotentialLandscape:
     
     """
-    estimation of quasi potential landscape of a given dynamical system (currently for
-    optimized for two variable systems). codes adapted from....
+    estimation of quasi potential landscape of a given dynamical system (currently
+    optimized for two variable systems only). fokker planck solver is adapted from
+    gitub repository associated with,
+    
+    Holubec, V., Kroy, K., and Steffenoni, S. (2019). Physically consistent numerical 
+    solver for time-dependent fokkerplanck equations. Physical Review E, 99:032117
+    
+    https://github.com/johnaparker/fplanck
     
     """
     
@@ -24,6 +29,17 @@ class QuasiPotentialLandscape:
     
     def __init__(self, time_point,model,input_params):
         
+        '''
+        inputs:
+            time_point: time point at which the quasi-potential landscape is calculated
+            model: model equations
+            input_params: includes ctot as well was stimulus amplitudes
+        
+        
+        function 'find_potential' returns the probability Pt (see the Fokker-Planck method)  and
+        the spatial grid data.
+        '''
+        
         self.time_point=time_point
         self.model = model
         self.input_params=input_params
@@ -33,6 +49,10 @@ class QuasiPotentialLandscape:
         return self.model.reaction_terms(self.time_point, y,self.input_params)
 
     def random_pdf(self):
+        
+        '''
+        generates random probability distributionn on a 2D grid.
+        '''
     
         def pdf(*args):
             values = np.ones_like(args[0])

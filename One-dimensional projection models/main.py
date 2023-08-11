@@ -22,6 +22,7 @@ params = {'legend.fontsize': 15,
           'ytick.labelsize':20}
 pylab.rcParams.update(params)
 
+
 from models_repo1d import *
 from stimulus_repo1d import *
 from utils import *
@@ -29,18 +30,21 @@ from quasi_potential_landscape import *
 
 class Model1D:
     
-    tF = 251;
+    tF = 251; # total time of integration
     t_eval = np.arange(0,tF,0.01)
 
     def __init__(self, model,stimulus_type):
         
         self.model = model
         self.stimulus_type=stimulus_type
-    
-    # def initialize_system(self):
         
     
     def add_stimulus(self):
+        '''
+        generates the time series of stimulus in left- and right- compatments
+        of the model. Stored as an instance of the Model1D class.
+        '''
+        
         self.stimulus_left=np.zeros(len(self.t_eval))
         self.stimulus_right=np.zeros(len(self.t_eval))
         for i, t in enumerate(self.t_eval):
@@ -49,7 +53,11 @@ class Model1D:
         
         
     def solve_timeseries(self):
+        '''
+        Here the ode system is integrated using solve_ivp. 
+        output: activity in the left- (uL) and right- (uR) compartments
         
+        '''
         self.add_stimulus()
         uLin,uRin=initial_condition
         
@@ -82,8 +90,19 @@ class Model1D:
         
     def plot_statespace(self,time_point,traj=None,Qlimits=None):
         
-        sa=StabilityAnalysis(time_point,self.model,self.input_params)
+        '''
         
+        inputs:
+            time_point: time point at which the state space is plotted
+            traj: x, y cordinates of the trajectory
+            Qlimits: the potential value limits to plot the contours.  Qlimits=[Qmin, Qbound]
+        
+         to plot the state space with trajectory, fixed points (with annotated stability) and
+        the projection contours of the potential landscape.
+        '''
+        # for a given model, the fixed points and their stability are estimated.
+        # both stable and ustable fixed points are indentified and are sorted into separate numpy arrays.
+        sa=StabilityAnalysis(time_point,self.model,self.input_params)
         stable_fps,unstable_fps=sa.estimate_fixed_points('.1f')
      
         ### plotting state space with separatrix and trajectories
@@ -151,16 +170,6 @@ class Model1D:
         surf = ax.plot_surface(Xpot,Ypot, Q,  rstride=1, cstride=1, cmap='hot',alpha=0.3,
                     linewidth=0.25,antialiased=True,edgecolor='k',vmin=np.nanmin(Q),vmax=np.nanmin(Q)+2)
         cset = ax.contour(Xpot,Ypot, Q_contour,levels=np.linspace(Qmin,Qbound,18), zdir='z', offset=0, cmap='coolwarm',alpha=0.25)
-
-        # uL,uR=traj
-        # if time_point>40:
-        #     ax.plot3D(uL[time_point-40:time_point],uR[time_point-40:time_point],np.zeros(len(uR[time_point-40:time_point])),lw=3.0,c='blue')
-        #     ax.plot3D(uL[time_point-40:time_point][-1],uR[time_point-40:time_point][-1],0,marker='o',ms=10,c='blue')
-        # else:
-        #     ax.plot3D(uL[0:time_point],uR[0:time_point],np.zeros(len(uR[0:time_point])),lw=3.0,c='blue')
-        #     ax.plot3D(uL[0:time_point][-1],uR[0:time_point][-1],0,marker='o',ms=10,c='blue')
-           
-    
         # ax.scatter(X_bndry,Y_bndry,Us_bndry,'o',color='k')
         ax.set_zlim([0,np.nanmin(Q)+1])
         ax.set_xlim([0,1])
@@ -180,8 +189,10 @@ class Model1D:
 if __name__ == '__main__':
     
     ## select model equation and type of stimulus from model_repo.py and stimulus_repo.py respectively
+    # currently plots state spaces of wavepining model. If LEGI model is needed, comment out wavepinning and
+    # uncomment LEGI model below
     
-    
+#%%    
     """
     Wave-pinning model parameters
     
@@ -197,14 +208,14 @@ if __name__ == '__main__':
     # model parameters 
     sLmax=0.02 # maximum stimulus strength on the left side of the cell (sleft)
     sRmax=0.0 # maximum stimulus strength on the right side of the cell (sright)
+    
+    # values are taken from Fig 1D
+    # ctot=2.15 # region I
+    ctot=2.21 # region II, criticality  
+    # ctot=2.26 # region III
+    # ctot=2.32 # region IV
 
-    # total=2.15 # region I
-    total=2.21 # region II, criticality  
-    # total=2.26 # region III
-    # total=2.32 # region IV
-
-    #####################################################################################
-          
+#%%          
     # """
     # Legi model parameters
     
@@ -228,13 +239,13 @@ if __name__ == '__main__':
     # sLmax=10 # maximum stimulus strength on the left side of the cell (sleft)
     # sRmax=0.1 # maximum stimulus strength on the right side of the cell (sright)
 
-    # total=1   
-    #####################################################################################
-          
-    input_params=[total,sLmax,sRmax]
+    # ctot=1   
+
+#%%     RUN THE MODEL
+      
+    input_params=[ctot,sLmax,sRmax]
     
     
-    ####################################### run the model
     m1d=Model1D(model,stimulus_type) # generating one-dimensional projection model instance
     m1d.input_params=input_params # contains bifurcation parameter and stimulus amplitudes
              
@@ -250,17 +261,17 @@ if __name__ == '__main__':
        
     m1d.plot_timeseries(t_eval,uL,uR) # plot solution time series
     
-    # time points to plot state space snapshots as in Figure1G
+    # time points to plot state space snapshots as in Figs 1G, 2E and 2F
     time_points_plot=np.pad(m1d.vertical_lines, (1, 2), 'constant', constant_values=(0,0))
     time_points_plot[0]=9
     time_points_plot[-3]=100
     time_points_plot[-2]=125
     time_points_plot[-1]=250
 
-    plot_idx=7 # change this index to change the snapshot time
+    plot_idx=9 # change this index to change the snapshot time
     time_point=int(time_points_plot[plot_idx])########################################################################
 
-    
+#%%    
     """
     estimating quasi-potential from steady state probability distribution. For more details refer,
     
@@ -268,12 +279,15 @@ if __name__ == '__main__':
     in stem cell differentiation. Biophysical journal, 99:29–39.
     
     """
-
-    try:
+    
+    try: # try to load already saved proprability and spatial grid data.
         folder_load=os.path.abspath(os.getcwd())+'\\qpl output\\'
-        Pt=np.load(os.path.join(folder_load,'Probability_'+str(total)+'_'+str(m1d.stimulus_left[time_point])+'.npy'))
-        grid_pot=np.load(os.path.join(folder_load,'Grid_'+str(total)+'_'+str(m1d.stimulus_left[time_point])+'.npy'))      
-    except:
+        Pt=np.load(os.path.join(folder_load,'Probability_'+str(ctot)+'_'+str(m1d.stimulus_left[time_point])+'.npy'))
+        grid_pot=np.load(os.path.join(folder_load,'Grid_'+str(ctot)+'_'+str(m1d.stimulus_left[time_point])+'.npy'))      
+    except:# if not, estimate probability and potential using Fokker-Planck method.
+        # using the class QuasiPotentialLandscape. If you need to save the generated data for further analysis as .npy files,
+        # please uncomment the the save options below. 
+        
         print('estimating quasi-potential landscape. This might take sometime.')
         qpl=QuasiPotentialLandscape(time_point,model,input_params)
         grid_pot,Pt=qpl.find_potential()  
@@ -285,12 +299,12 @@ if __name__ == '__main__':
     Q= -np.log(Pt) # quasi-potential value
     zlims=[np.min(Q)-0.5,np.min(Q)+1]
     
-    bb=BasinBoundary(Q,grid_pot) #estimating asymptotically attracting state space region from Q.
+    bb=BasinBoundary(Q,grid_pot) #estimating asymptotically attracting state space region from potential Q.
     bb.model=model
-    Qmin,Qbound=bb.find_boundary()
+    Qmin,Qbound=bb.find_boundary() # finds the minimum and the bound Q value between which the countours are plotted
     m1d.grid_pot=grid_pot
     m1d.Q=Q
-    
+#%%    
     """
     plotting state space trajectory with landscape projections
     
