@@ -35,9 +35,8 @@ Recalcuates evolution of state-space tracjectories with quasi-potential landscap
 # file 'main.py' has class Model1D that has all attributes for integrating the system, estimating quasi-potential landscape and plotting them.
 # example with one-dimensional projection of Wave-pinning model. Variable notations same as in text. Any new model can be added to 'models_repo.py'. Currently works only for models with two variables.
 
-model = wavepinning_1d()
+ model = wavepinning_1d()
 stimulus_type=stimulus_ramp()
-# stimulus_type=stimulus_single()
 model.stimulus_type=stimulus_type
 
 ## simulation conditions
@@ -46,9 +45,9 @@ initial_condition = [0.1,0.05]
 # model parameters 
 sLmax=0.02 # maximum stimulus strength on the left side of the cell (sleft)
 sRmax=0.0 # maximum stimulus strength on the right side of the cell (sright)
-total=2.21 # region II, criticality  
 
-input_params=[total,sLmax,sRmax]
+# values are taken from Fig 1D
+ctot=2.21 # region II, criticality  
 
 # integrating the ODEs
 
@@ -61,6 +60,7 @@ qpl=QuasiPotentialLandscape(time_point,model,input_params)
 grid_pot,Pt=qpl.find_potential() 
 Q=-np.log(Pt)
 ```
+![images_readme](https://github.com/akhileshpnn/SubPB-mechanism/assets/41164857/2c3f1670-9632-4227-a01f-8fbc44aa028e)
 
 2. Reaction-diffusion models: 
 Reaction-diffusion simulation for recalculating all features compared between polarization mechanisms outlined in Figure 3 and its supplementary.
