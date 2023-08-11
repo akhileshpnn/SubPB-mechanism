@@ -27,9 +27,9 @@ This repository is for the models described in the paper
 
 ## ⚡ Quick Guide
 
-The repository has two folders,
+Two folders,
 1. One-dimensional projection models: 
-Recaluates evolution of state-space tracjectories with quasi-potential landscapes and their projections in Figure1 and Figure2 (including corresponding supplementary figures) of the paper.
+Recalcuates evolution of state-space tracjectories with quasi-potential landscapes and their projections in Figure1 and Figure2 (including corresponding supplementary figures) of the paper.
 
 ```python
 # file 'main.py' has class Model1D that has all attributes for integrating the system, estimating quasi-potential landscape and plotting them.
