@@ -1,5 +1,9 @@
 # ode file for generating sub-critical pitfork bifurcation diagram in
-# Figure1B and 1E.  
+# Fig 1B and 1E.  
+
+# In order to run this ode file you need to have XPP-Aut installed
+# in your device. Please follow instructions from this website to 
+# use it: http://www.math.pitt.edu/~bard/xpp/xpp.html
 
 # subscripts '1' and '2' stands for 'left' and 'right'.
 # set initial conditions
