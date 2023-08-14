@@ -30,11 +30,11 @@ This repository is for the models described in the paper:
 Contains two folders,
 
 1. One-dimensional projection models: 
-Recalcuates evolution of state-space tracjectories with quasi-potential landscapes and their projections in Figs 1 and 2 (including their supplementary figures) of the paper.
+Recalcuates evolution of state-space tracjectories with quasi-potential landscapes and their projections as in Figs 1 and 2 (including their supplementary figures) of the paper.
 
 ```python
 # file 'main.py' has class Model1D that has all attributes for integrating the system, estimating quasi-potential landscape and plotting them.
-# example with one-dimensional projection of Wave-pinning model. Variable notations same as in text. Any new model can be added to 'models_repo1d.py'. Currently works only for models with two variables.
+# example with one-dimensional projection of SubPB model. Variable notations same as in text. Any new model can be added to 'models_repo1d.py'. Currently works only for models with two variables.
 
  model = wavepinning_1d()
 stimulus_type=stimulus_ramp()
