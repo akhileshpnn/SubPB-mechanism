@@ -113,7 +113,8 @@ gradients.
     rd.plot_kymo(out,tt)     
     rd.plot_timeseries(out,bins=[10,0],tt=tt)
  ```
-![reaction_diffusion](https://github.com/akhileshpnn/SubPB-mechanism/assets/41164857/2c3f1670-9632-4227-a01f-8fbc44aa028e)
+![reaction_diffusion](https://github.com/akhileshpnn/SubPB-mechanism/assets/41164857/1b94e60e-460f-45d8-82cb-c2cca18bd02a)
+
 
 
 
