@@ -5,7 +5,7 @@
 
 <div align="center">
 
-🚩 [**Paper**](#-Paper) **|** 🔧 ** Dependencies ** **|** ⚡ **Quick Guide** **|** 
+🚩 [**Paper**](#-Paper) **|** 🔧 **Dependencies** **|** ⚡ **Quick Guide** **|** 
 
 
 </div>
