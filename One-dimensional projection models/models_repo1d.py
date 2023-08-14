@@ -46,19 +46,19 @@ class legi_1d:
         
         k1a=2;k1b=2
         k2a=1;k2b=1;k3a=1;k3b=1
-        du=0.5;dw=0.5
+        du=0.5;
         
-        wL,wR = y 
+        uL,uR = y 
         
         sL,sR=self.stimulus_type.add_stimulus(t,input_params)
     
         vLs=(k2a/k2b)*(sL+sR)/2
         vRs=(k2a/k2b)*(sL+sR)/2
         
-        uLs=(k1a/(2*du+k1b))*(sL+du*(sL+sR)/k1b)
-        uRs=((k1a/k1b)*(sR+sL))-uLs
+        wLs=(k1a/(2*du+k1b))*(sL+du*(sL+sR)/k1b)
+        wRs=((k1a/k1b)*(sR+sL))-wLs
         
-        dwL = k3a*uLs*(ctot-wL)-k3b*vLs*wL-dw*(wL-wR)
-        dwR = k3a*uRs*(ctot-wR)-k3b*vRs*wR-dw*(wR-wL)
+        duL = k3a*wLs*(ctot-uL)-k3b*vLs*uL-du*(uL-uR)
+        duR = k3a*wRs*(ctot-uR)-k3b*vRs*uR-du*(uR-uL)
         
-        return np.array([dwL, dwR])
+        return np.array([duL, duR])

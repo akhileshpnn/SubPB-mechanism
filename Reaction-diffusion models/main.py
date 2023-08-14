@@ -10,6 +10,15 @@ from scipy.integrate import solve_ivp
 import sdeint
 from scipy.linalg import block_diag
 import matplotlib.pyplot as plt
+import matplotlib.pylab as pylab
+params = {'legend.fontsize': 15,
+          'axes.labelsize': 20,
+          'axes.labelpad' : 15,
+          'axes.titlesize':20,
+          'xtick.labelsize':20,
+          'ytick.labelsize':20}
+pylab.rcParams.update(params)
+
 
 from laplacebeltramioperator import *
 from initialconditions import *
@@ -24,7 +33,7 @@ class ReactionDiffusion1D:
     N = 20 # number of nodes
     tF = 251; # total time of intergration
     dt=0.01 # integration time step
-    t_eval = np.arange(0,tF,dt)
+    t_eval = np.arange(0,tF+dt,dt)
    
 
     def __init__(self, model, initial_condition, lbo,stimulus):
@@ -52,7 +61,7 @@ class ReactionDiffusion1D:
         
         self.Z = self.initial_condition.set_initial_condition(self.model,self.N) # generates the intial conditions in the entire grid
         
-        self.Stimulus=np.zeros((self.tF,self.N)) # stimulus values are initiated to be zero
+        self.Stimulus=np.zeros((self.tF+1,self.N)) # stimulus values are initiated to be zero
                 
     def get_input_profile(self):
         """
@@ -62,7 +71,7 @@ class ReactionDiffusion1D:
         check 'stimulus_repo_rd.py' for more details.
         
         """
-        for t in range(self.tF):
+        for t in range(self.tF+1):
             self.Stimulus[t]=np.round(self.stimulus.add_stimulus(t),3)       
     
 
@@ -115,11 +124,8 @@ class ReactionDiffusion1D:
         """
         adding noise term to the system.
         returns block diagonal matrix with diaginal elements specifying the
-        noise intensity
-        
+        noise intensity      
         """
-        
-        
         if type(model).__name__=='Legi':
             noise_ampl=0.0005
             Gu = Gw=np.diag(noise_ampl*np.ones(self.N)) # noise added to u and w
@@ -166,7 +172,8 @@ class ReactionDiffusion1D:
         
         u=np.roll(u,shift=0,axis=0)
         fig,ax = plt.subplots()
-        im = ax.imshow(u.T, extent=[0,self.N-1,len(u.T),0],cmap=parula_map, aspect = 'auto',vmin=np.min(u),vmax=np.max(u))
+        im = ax.imshow(u.T, extent=[0,self.N-1,len(u.T),0],
+                       cmap=parula_map, aspect = 'auto',vmin=np.min(u),vmax=np.max(u),interpolation=None)
         ax.figure.colorbar(im)
         ax.set_ylabel('time(sec)',fontsize=20)
         ax.set_xlabel(r'plama membrane contour$(\theta)$',fontsize=20)
@@ -176,7 +183,7 @@ class ReactionDiffusion1D:
         ax.set_yticklabels(np.arange(0,len(u.T),50),fontsize=20)
         if tt is not None:
             for t in tt:
-                ax.axhline(y=t,color='k',lw=5)        
+                ax.axhline(y=t,color='g',lw=5)        
         plt.show()
     
     def plot_profile(self,stimulus,tt):
@@ -191,7 +198,7 @@ class ReactionDiffusion1D:
             plt.plot(s_t[i],'g-',lw=2.0)
         plt.ylabel(r'$S(\theta)$',fontsize=20)
         # plt.ylim(0,0.02)
-        plt.xlabel(r'plama membrane contour$(\theta)$',fontsize=20)
+        plt.xlabel(r'cell membrane contour$(\theta)$',fontsize=20)
         ax=plt.gca()
         ax.set_xticks([0,5,10,15,19])
         ax.set_xticklabels(['0',r'$\frac{\pi}{2}$',r'$\pi$',r'$\frac{3\pi}{2}$',r'$2\pi$'],fontsize=20)
@@ -210,11 +217,11 @@ class ReactionDiffusion1D:
         plt.plot(time,response_back,'k--',lw=3.0)
         if tt is not None:
             for t in tt:
-                plt.axvline(x=t,color='k',lw=5.0)
+                plt.axvline(x=t,color='g',lw=5.0)
         plt.ylabel(r'$u$',fontsize=20)
         plt.xlabel(r'$time(sec)$',fontsize=20)
         plt.xlim(0,time[-1])
-        
+        # plt.ylim(0,1.2)
         plt.show()       
     
         
@@ -222,38 +229,61 @@ if __name__ == '__main__':
      
     lbo = Periodic() # periodic boundary condition
     
-    ## select the model to simulate and corresponding threshold stimulus strength (from Figure 3A)
+    ## select the model to simulate and corresponding threshold stimulus strength (from Fig 3A)
+    ## In the figure stimulus difference, sdthresh is metioned. sdthresh=(threshold_stimu * 100)%
+    ## sdthresh for SubPB is 1.2%. But in the deterministic case it is 1.3%. Please consider
+    ## that while going the simulations.
+    
+    '''
+    select the model type by commenting and uncommenting.
+    For simulating the four different regions in the SubPB model (Fig 1C),
+    please change the ctot value within the SubPB() class (in 'model_repo_rd.py' file)
+    '''
     # model = WavePinning();threshold_stimu=0.003
-    model = SubPB();threshold_stimu=0.012
+    model = SubPB();threshold_stimu=0.013
     # model = Otsuji();threshold_stimu=0.001
     # model = Legi();threshold_stimu=0.005
        
     
-    initial_condition = around_steadystate_2vars() # initial condition  
-    # initial_condition = around_steadystate_legi()
+    ## generate initial condition around the homogeneous steady state 
+    ## of the system
+    if type(model).__name__=='Legi':
+        initial_condition = around_steadystate_legi()
+    else:
+        initial_condition = around_steadystate_2vars() 
     
-    ## select type of stimulus
-    # stimulus_type=single_gradient()
-    stimulus_type=single_gradient_transient()
-    # stimulus_type=gradient_reversal()
-    # stimulus_type = simultaneous_gradients()
+    '''
+    select the stimulus type by commenting and uncommenting.
+    The value of threshold stimulus strength for activation
+    (threshold_stimu) is preassaigned along with the models.
+    '''  
     
-    # stimulus_type.stimu_strength=0.1 # set stimulus strength.
-    stimulus_type.stimu_strength=2*threshold_stimu
+    stimulus_type=single_gradient() # One gradient with maximum at theta=pi
+    # stimulus_type=gradient_reversal() # Gradient reversal at t=300 sec
+    ## stimulus_type = simultaneous_gradients() # Two simultaneous gradient at opposite ends
     
-    ## create class instance for the given model
+    ## assigning stimulus strengths to the stimuls class
+    stimulus_type.threshold_stimu=threshold_stimu # threshold for activation used in gradient_reversal() and simultaneous_gradients()
+    stimulus_type.stimu_strength=2*threshold_stimu 
+    
+    ## create class instance for the given model using initial, boundary and stimulus conditions.
     rd = ReactionDiffusion1D(model, initial_condition, lbo, stimulus_type)
-    stimulus_type.tF=rd.tF
     
+    ## specify the time point at which the gradient stimulation ends.
+    ## for transient gradient simulation in Fig 1C, set stimulus_type.t_end=70.
+    ## for gradient_reversal() and simultaneous_gradients() set stimulus_type.t_end=rd.tF. (S2B and 3E Figs)
+    ## beginning of the gradient is set to 10sec inside the class in stimulus_repo_rd.py
+    stimulus_type.t_end=70
+    
+    ## deterministic or stochastic
     add_noise=None
-    rd.add_noise=add_noise # assigning the condition as a 'rd' class 
+    rd.add_noise=add_noise # assigning the condition as a 'rd' class instance
     
     ## integrate the system and find solution
     ## If add_noise=True, stochastic simulation. If add_noise=None, deterministic simulation.
     sol_det, sol_stocha=rd.simulate()
     
-    if type(model).__name__=='Legi':
-        
+    if type(model).__name__=='Legi':       
         if sol_det is None:
             out=sol_stocha[:,2*rd.N:].T             
         else:
@@ -264,12 +294,16 @@ if __name__ == '__main__':
         else:
             out=sol_det.y[:rd.N]
     
+    ## slicing the solution array
     tout=rd.t_eval[::int(1/rd.dt)]
-    out = out[:,::int(1/rd.dt)]
+    out = out[:,::int(1/rd.dt)] # output u activity from each model
     
-    tt=[stimulus_type.t_beg1,stimulus_type.tF-1]
+    '''
+    plotting functions
+    '''
+    tt=[stimulus_type.t_beg,stimulus_type.t_end] # specify thr stimuls time points
     rd.plot_profile(rd.Stimulus.T,tt)
     rd.plot_kymo(out,tt)     
-    rd.plot_timeseries(out,[10,0],tt)
+    rd.plot_timeseries(out,bins=[10,0],tt=tt)
     
     

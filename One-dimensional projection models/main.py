@@ -205,11 +205,11 @@ if __name__ == '__main__':
     ## simulation conditions
     initial_condition = [0.1,0.05]
     
-    # model parameters 
+    ## model parameters 
     sLmax=0.02 # maximum stimulus strength on the left side of the cell (sleft)
     sRmax=0.0 # maximum stimulus strength on the right side of the cell (sright)
     
-    # values are taken from Fig 1D
+    ## values are taken from Fig 1D
     # ctot=2.15 # region I
     ctot=2.21 # region II, criticality  
     # ctot=2.26 # region III
@@ -246,8 +246,8 @@ if __name__ == '__main__':
     input_params=[ctot,sLmax,sRmax]
     
     
-    m1d=Model1D(model,stimulus_type) # generating one-dimensional projection model instance
-    m1d.input_params=input_params # contains bifurcation parameter and stimulus amplitudes
+    m1d=Model1D(model,stimulus_type) ## generating one-dimensional projection model instance
+    m1d.input_params=input_params ## contains bifurcation parameter and stimulus amplitudes
              
     uL,uR=m1d.solve_timeseries()
     
@@ -261,15 +261,15 @@ if __name__ == '__main__':
        
     m1d.plot_timeseries(t_eval,uL,uR) # plot solution time series
     
-    # time points to plot state space snapshots as in Figs 1G, 2E and 2F
+    ## time points to plot state space snapshots as in Figs 1G, 2E and 2F
     time_points_plot=np.pad(m1d.vertical_lines, (1, 2), 'constant', constant_values=(0,0))
     time_points_plot[0]=9
     time_points_plot[-3]=100
     time_points_plot[-2]=125
     time_points_plot[-1]=250
 
-    plot_idx=9 # change this index to change the snapshot time
-    time_point=int(time_points_plot[plot_idx])########################################################################
+    plot_idx=9 ## change this index to change the snapshot time
+    time_point=int(time_points_plot[plot_idx])
 
 #%%    
     """
@@ -280,13 +280,13 @@ if __name__ == '__main__':
     
     """
     
-    try: # try to load already saved proprability and spatial grid data.
+    try: ## try to load already saved proprability and spatial grid data.
         folder_load=os.path.abspath(os.getcwd())+'\\qpl output\\'
         Pt=np.load(os.path.join(folder_load,'Probability_'+str(ctot)+'_'+str(m1d.stimulus_left[time_point])+'.npy'))
         grid_pot=np.load(os.path.join(folder_load,'Grid_'+str(ctot)+'_'+str(m1d.stimulus_left[time_point])+'.npy'))      
-    except:# if not, estimate probability and potential using Fokker-Planck method.
-        # using the class QuasiPotentialLandscape. If you need to save the generated data for further analysis as .npy files,
-        # please uncomment the the save options below. 
+    except:## if not, estimate probability and potential using Fokker-Planck method.
+        ## using the class QuasiPotentialLandscape. If you need to save the generated data for further analysis as .npy files,
+        ## please uncomment the the save options below. 
         
         print('estimating quasi-potential landscape. This might take sometime.')
         qpl=QuasiPotentialLandscape(time_point,model,input_params)

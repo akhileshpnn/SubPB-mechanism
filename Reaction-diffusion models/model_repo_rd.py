@@ -32,9 +32,13 @@ class WavePinning:
 
 class SubPB:
     
-    ctot=2.155 # ctot value used in the one-dimensional projection model is slightly different (ctot=2.21).
-    # The difference in the Snpb is arising because in the one-dimensional projection model space is not
+    ctot=2.155 ## region II. ctot value used in the one-dimensional projection model is slightly different (ctot=2.21).
+    # The difference in the position of SNpb is arising because in the one-dimensional projection model space is not
     # explicitly considered. One-dimensional model is only an approximation of the limiting case of full PDE model.
+    
+    # ctot=2.1 ## region I
+    # ctot=2.2 ## region III
+    # ctot=2.35 ## region IV. To see pre-activation set stimu_strength=0 in 'main.py'
     
     k0 = 0.067 # s-1
     g = 1 # s-1 # 
@@ -62,22 +66,23 @@ class Otsuji:
         fv = -fu
         return [fu, fv]
     
+    
 class Legi:
     
-    ctot = 1
+    ctot = 1 # utot in the main article. Used ctot for convinience.
     
     k1a=k1b=2
     k2a=k2b=1
     k3a=k3b=1
 
-    du = 0.1 # um2s-1
-    dv = 10 # um2s-1
     dw = 0.1 # um2s-1
+    dv = 10 # um2s-1
+    du = 0.1 # um2s-1
 
     def reaction(self, t, y, s):
-        u, v, w = y 
-        fu = self.k1a*s-self.k1b*u
+        w, v, u = y 
+        fw = self.k1a*s-self.k1b*w
         fv = self.k2a*s-self.k2b*v
-        fw = self.k3a*u*(self.ctot-w)-self.k3b*v*w
-        return [fu, fv, fw]
+        fu = self.k3a*w*(self.ctot-u)-self.k3b*v*u
+        return [fw, fv, fu]
     

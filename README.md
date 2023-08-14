@@ -15,7 +15,7 @@
 
 ## 🚩 Paper
 
-This repository is for the models described in the paper
+This repository is for the models described in the paper:
 
 "Non-asymptotic transients away from steady states determine cellular responsiveness to dynamic spatial-temporal signals
 " [[biorRXiv]]([https://www.biorxiv.org/content/10.1101/2023.06.01.543361v1](https://www.biorxiv.org/content/10.1101/2023.02.03.526969v1)) 
@@ -27,13 +27,14 @@ This repository is for the models described in the paper
 
 ## ⚡ Quick Guide
 
-Two folders,
+Contains two folders.
+
 1. One-dimensional projection models: 
-Recalcuates evolution of state-space tracjectories with quasi-potential landscapes and their projections in Figure1 and Figure2 (including corresponding supplementary figures) of the paper.
+Recalcuates evolution of state-space tracjectories with quasi-potential landscapes and their projections in Figs 1 and 2 (including corresponding supplementary figures) of the paper.
 
 ```python
 # file 'main.py' has class Model1D that has all attributes for integrating the system, estimating quasi-potential landscape and plotting them.
-# example with one-dimensional projection of Wave-pinning model. Variable notations same as in text. Any new model can be added to 'models_repo.py'. Currently works only for models with two variables.
+# example with one-dimensional projection of Wave-pinning model. Variable notations same as in text. Any new model can be added to 'models_repo1d.py'. Currently works only for models with two variables.
 
  model = wavepinning_1d()
 stimulus_type=stimulus_ramp()
@@ -60,54 +61,60 @@ qpl=QuasiPotentialLandscape(time_point,model,input_params)
 grid_pot,Pt=qpl.find_potential() 
 Q=-np.log(Pt)
 ```
-![images_readme](https://github.com/akhileshpnn/SubPB-mechanism/assets/41164857/2c3f1670-9632-4227-a01f-8fbc44aa028e)
+![one_dimensional_projection](https://github.com/akhileshpnn/SubPB-mechanism/assets/41164857/2c3f1670-9632-4227-a01f-8fbc44aa028e)
 
 2. Reaction-diffusion models: 
-Reaction-diffusion simulation for recalculating all features compared between polarization mechanisms outlined in Figure 3 and its supplementary.
-Example script to obtain Kymograph in Figure1C
+For simulating different mechanisms for polarization discussed in the article (SubPB, LEGI, Wave-pinning and Turing) upon stimulating with spatial-temporal signal
+gradients. 
+
  ```python
 
-    # file 'main.py' has class ReactionDiffusion1D that has all attributes for numerically solving the partial differential equation.
-    # Any new model can be added to 'models_repo.py'. Currently works only for models with two and three variables.
+    # file 'main.py' has class ReactionDiffusion1D that has all attributes for numerically solving the (two variable or three variable) partial differential equation.
+    # in 1D space. Any new model can be added to 'models_repo_rd.py'.
+
+    '''
+    This piece of example code generates the Kymograph of SubPB upon transient gradient stimulation (See the image below).
+    Copy and paste it below 'if __name__ == '__main__':' in the 'main.py' code. For more details of functions please see the 'main.py' file. 
+    '''
 
     lbo = Periodic() # periodic boundary condition
+    model = SubPB();threshold_stimu=0.013 # model selction
+    initial_condition = around_steadystate_2vars() # intial value selection    
+    stimulus_type=single_gradient() # stimulus selction
+    stimulus_type.stimu_strength=2*threshold_stimu 
+    stimulus_type.t_end=70
     
-    ## select the model to simulate and corresponding threshold stimulus strength (from Figure 3A)
-    model = SubPB();threshold_stimu=0.012       
-    
-    initial_condition = around_steadystate_2vars() # initial condition around homogeneous steady state  
-    
-    ## select type of stimulus
-    stimulus_type=single_gradient_transient()
-    
-    stimulus_type.stimu_strength=0.02 # set stimulus strength.
-    
-    ## create class instance for the given model
+    ## create class instance for the given model using initial, boundary and stimulus conditions.
     rd = ReactionDiffusion1D(model, initial_condition, lbo, stimulus_type)
-    stimulus_type.tF=rd.tF
-    
-    add_noise=None # for performing stochastic simulation, set add_noise=True
-    rd.add_noise=add_noise
+
+    ## deterministic or stochastic
+    add_noise=None
+    rd.add_noise=add_noise # assigning the condition as a 'rd' class instance
     
     ## integrate the system and find solution
     ## If add_noise=True, stochastic simulation. If add_noise=None, deterministic simulation.
     sol_det, sol_stocha=rd.simulate()
     
+ 
     if sol_det is None:
         out=sol_stocha[:,:rd.N].T             
     else:
         out=sol_det.y[:rd.N]
-
-    tout=rd.t_eval[::int(1/rd.dt)]
-    out = out[:,::int(1/rd.dt)]
     
-    tt=[10,70]
+    ## slicing the solution array
+    tout=rd.t_eval[::int(1/rd.dt)]
+    out = out[:,::int(1/rd.dt)] # output u activity from each model
+    
+    '''
+    plotting functions
+    '''
+    tt=[stimulus_type.t_beg,stimulus_type.t_end] # specify thr stimuls time points
     rd.plot_profile(rd.Stimulus.T,tt)
     rd.plot_kymo(out,tt)     
-    rd.plot_timeseries(out,[10,0],tt)
+    rd.plot_timeseries(out,bins=[10,0],tt=tt)
  ```
- ![image](https://github.com/akhileshpnn/SubPB-mechanism/assets/41164857/ba2c169f-d680-494b-8aa1-753297b24414)
- ![image](https://github.com/akhileshpnn/SubPB-mechanism/assets/41164857/513a3fd6-6227-48ad-b4af-03eab5e23932)
+![reaction_diffusion](https://github.com/akhileshpnn/SubPB-mechanism/assets/41164857/2c3f1670-9632-4227-a01f-8fbc44aa028e)
+
 
 
 
