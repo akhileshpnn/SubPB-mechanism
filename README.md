@@ -47,7 +47,7 @@ initial_condition = [0.1,0.05]
 sLmax=0.02 # maximum stimulus strength on the left side of the cell (sleft)
 sRmax=0.0 # maximum stimulus strength on the right side of the cell (sright)
 
-# values are taken from Fig 1D
+# values are taken from Fig 1B
 ctot=2.21 # region II, criticality (SubPB mechanism)
 
 # integrating the ODEs
