@@ -64,7 +64,7 @@ Q=-np.log(Pt)
 ![one_dimensional_projection](https://github.com/akhileshpnn/SubPB-mechanism/assets/41164857/2c3f1670-9632-4227-a01f-8fbc44aa028e)
 
 2. Reaction-diffusion models: 
-For simulating different mechanisms for polarization discussed in the article (SubPB, LEGI, Wave-pinning and Turing) upon stimulating with spatial-temporal signal
+For simulating different mechanisms for cellular polarization discussed in the article (SubPB, LEGI, Wave-pinning and Turing) upon stimulation with spatial-temporal signal
 gradients. 
 
  ```python
